@@ -17,3 +17,6 @@ The second module implements the SORT object tracking algorithm:
 The third module implements an algorithm for classifying and counting parked cars:
 
 ![](readme_images/4.png)
+
+
+You can start the required mode in the "run" directory.
