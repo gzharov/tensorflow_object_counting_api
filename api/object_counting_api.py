@@ -4,6 +4,10 @@ import cv2
 import numpy as np
 from utils2 import visualization_utils as vis_util
 
+
+from sort import *
+mot_tracker = Sort() 
+
 # Variables
 total_passed_vehicle = 0  # using it to count vehicles
 
@@ -265,7 +269,8 @@ def object_counting(input_video, detection_graph, category_index, is_color_recog
             detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
             detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
             num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-
+###
+            #flag = True
             # for all the frames that are extracted from input video
             while(cap.isOpened()):
                 ret, frame = cap.read()                
@@ -284,6 +289,9 @@ def object_counting(input_video, detection_graph, category_index, is_color_recog
                     [detection_boxes, detection_scores, detection_classes, num_detections],
                     feed_dict={image_tensor: image_np_expanded})
                 
+                #print("box")
+                #print(boxes)
+            
 
                 # insert information text to video frame
                 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -441,7 +449,17 @@ def targeted_object_counting(input_video, detection_graph, category_index, is_co
                     [detection_boxes, detection_scores, detection_classes, num_detections],
                     feed_dict={image_tensor: image_np_expanded})
                 #print('num = ',num)
-
+                #print(np.squeeze(boxes),np.squeeze(scores),np.squeeze(classes),num)
+                #print(boxes,scores,classes,num)
+                #print(np.shape(boxes))
+                #print(boxes)
+                #track_bbs_ids = mot_tracker.update(np.reshape(boxes,(300,4)))
+                '''
+                print(track_bbs_ids)
+                print(np.shape(scores))
+                print(np.reshape(scores,(300)))
+                print(int(num))
+                '''
                 # insert information text to video frame
                 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -458,10 +476,12 @@ def targeted_object_counting(input_video, detection_graph, category_index, is_co
                                                                                                       use_normalized_coordinates=True,
                                                                                                       line_thickness=4)
                 if(len(the_result) == 0):
-                    cv2.putText(input_frame, "...", (10, 35), font, 0.8, (0,255,255),2,cv2.FONT_HERSHEY_SIMPLEX)                       
+                    cv2.putText(input_frame, "...", (10, 35), font, 0.8, (0,255,255),2,cv2.FONT_HERSHEY_SIMPLEX)
+                    print ("no results")
+                    #print("no results")
                 else:
                     cv2.putText(input_frame, the_result, (10, 35), font, 0.8, (0,255,255),2,cv2.FONT_HERSHEY_SIMPLEX)
-                print(the_result)
+                    print (the_result)
                 #cv2.imshow('object counting',input_frame)
 
                 output_movie.write(input_frame)

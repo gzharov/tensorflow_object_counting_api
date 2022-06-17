@@ -1,15 +1,6 @@
 item {
   id: 1
-  name: 'Car'
+  name: 'vehicle'
 }
 
-item {
-  id: 2
-  name: 'Truck'
-}
-
-item {
-  id: 3
-  name: 'Pedestrian'
-}
 

@@ -178,6 +178,7 @@ def draw_bounding_box_on_image_array(current_frame_number, image,
                              thickness, display_str_list,
                              use_normalized_coordinates)
   np.copyto(image, np.array(image_pil))
+  #print(is_vehicle_detected, csv_line, update_csv)
   return is_vehicle_detected, csv_line, update_csv
 
 def draw_bounding_box_on_image(current_frame_number,image,
@@ -210,14 +211,17 @@ def draw_bounding_box_on_image(current_frame_number,image,
       ymin, xmin, ymax, xmax as relative to the image.  Otherwise treat
       coordinates as absolute.
   """
+  #print('display_str_list = ', display_str_list)
   csv_line = "" # to create new csv line consists of vehicle type, predicted_speed, color and predicted_direction
   update_csv = False # update csv for a new vehicle that are passed from ROI - just one new line for each vehicles
   is_vehicle_detected = [0]
   draw = ImageDraw.Draw(image)
   im_width, im_height = image.size
+  #print('im_width, im_height = ',im_width, im_height)
   if use_normalized_coordinates:
     (left, right, top, bottom) = (xmin * im_width, xmax * im_width,
                                   ymin * im_height, ymax * im_height)
+    #print('lfrb = ',left, right, top, bottom)
   else:
     (left, right, top, bottom) = (xmin, xmax, ymin, ymax)
   draw.line([(left, top), (left, bottom), (right, bottom),
@@ -227,6 +231,7 @@ def draw_bounding_box_on_image(current_frame_number,image,
 
   image_temp = numpy.array(image)
   detected_vehicle_image = image_temp[int(top):int(bottom), int(left):int(right)]
+  #print('detected_vehicle_image = ',detected_vehicle_image)
 
   '''if(bottom > ROI_POSITION): # if the vehicle get in ROI area, vehicle predicted_speed predicted_color algorithms are called - 200 is an arbitrary value, for my case it looks very well to set position of ROI line at y pixel 200'''
   if(x_axis[0] == 1):
@@ -266,6 +271,7 @@ def draw_bounding_box_on_image(current_frame_number,image,
   for display_str in display_str_list[::-1]:
     text_width, text_height = font.getsize(display_str)
     margin = np.ceil(0.05 * text_height)
+    #print('text_width, text_height, margin = ',text_width, text_height, margin)
     draw.rectangle(
         [(left, text_bottom - text_height - 2 * margin), (left + text_width,
                                                           text_bottom)],

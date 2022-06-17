@@ -26,25 +26,10 @@ flags.DEFINE_string('image_dir', '', 'Path to the image directory')
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
-'''
-# TO-DO replace this with label map
-def class_text_to_int(row_label):
-    if row_label == 'nine':
-        return 1
-    elif row_label == 'ten':
-        return 2
-    elif row_label == 'jack':
-        return 3
-    elif row_label == 'queen':
-        return 4
-    elif row_label == 'king':
-        return 5
-    elif row_label == 'ace':
-        return 6
-    else:
-        None
-'''
 
+# TO-DO replace this with label map
+
+'''
 def class_text_to_int(row_label):
     if row_label == 'Car':
         return 1
@@ -54,6 +39,13 @@ def class_text_to_int(row_label):
         return 3
     else:
         None
+'''
+def class_text_to_int(row_label):
+    if row_label == 'vehicle':
+        return 1
+    else:
+        None
+
 
 def split(df, group):
     data = namedtuple('data', ['filename', 'object'])
