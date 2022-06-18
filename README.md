@@ -1,4 +1,3 @@
-# tensorflow_object_counting_api
 
 ## This project implements the task "counting parked cars on video"
 
